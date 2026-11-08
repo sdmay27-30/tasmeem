@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Qucs-S
+Comment=Circuit simulator (TASMEEM)
+Exec=qucs-s
+Terminal=false
+Categories=Education;

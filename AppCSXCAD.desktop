@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=AppCSXCAD
+Comment=openEMS 3D structure viewer (TASMEEM)
+Exec=/opt/openEMS/bin/AppCSXCAD
+Path=/home/tasmeem/work
+Terminal=false
+Categories=Education;

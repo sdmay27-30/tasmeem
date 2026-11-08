@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=TASMEEM EM Simulator
+Comment=Draw an antenna from shapes, check it in 3D, and simulate it with openEMS (no scripts)
+Exec=/opt/openEMS/venv/bin/python3 /opt/tasmeem-em/tasmeem_em.py
+Icon=applications-science
+Path=/home/tasmeem/work
+Terminal=false
+Categories=Education;

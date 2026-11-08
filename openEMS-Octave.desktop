@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=openEMS (Octave)
+Comment=EM field solver, run .m scripts (TASMEEM)
+Exec=octave --gui
+Icon=octave
+Path=/home/tasmeem/work
+Terminal=false
+Categories=Education;
