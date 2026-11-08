@@ -117,7 +117,9 @@ COPY --from=rflayout-build /src/build/qucsrflayout /usr/local/bin/qucsrflayout
 # ------------------------------------------------------------
 
 # Non-root user, home folder doubles as the shared workspace.
-RUN useradd -m -s /bin/bash tasmeem
+# Ubuntu 24.04 already has a user at ID 1000 ("ubuntu"). Replace it so the app user gets ID 1000,
+# which matches the first user on most Linux computers (needed to write to the shared work folder).
+RUN userdel -r ubuntu 2>/dev/null || true; useradd -m -u 1000 -s /bin/bash tasmeem
 USER tasmeem
 WORKDIR /home/tasmeem
 RUN mkdir -p Desktop QucsWorkspace/user_lib work

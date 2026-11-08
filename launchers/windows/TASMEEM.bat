@@ -2,8 +2,8 @@
 setlocal
 title TASMEEM launcher
 cd /d "%~dp0..\.."
-rem v5 = Qucs-S + openEMS + RF Layout + plot font + TASMEEM EM Simulator (a new name makes older copies rebuild)
-set IMAGE=ghcr.io/sdmay27-30/tasmeem:v5
+rem v6 = v5 plus: the container stops when the browser tab is closed
+set IMAGE=ghcr.io/sdmay27-30/tasmeem:v6
 echo.
 echo  TASMEEM launcher
 echo  ----------------
@@ -68,11 +68,20 @@ echo.
 echo  TASMEEM is open in your browser.
 echo  Your files are saved in the "work" folder next to this launcher.
 echo.
-echo  Keep this window open while you work.
-echo  Press any key here when you are done to stop TASMEEM.
-pause >nul
+echo  To stop TASMEEM: close its browser tab, or press S here.
+echo  You can close this window; TASMEEM keeps running until its browser tab is closed.
+echo  Anything saved outside the work folder is removed when TASMEEM stops.
+:waitloop
+docker ps -q -f name=tasmeem-app | findstr . >nul
+if errorlevel 1 goto closed
+choice /c SN /t 2 /d N /n >nul
+if errorlevel 2 goto waitloop
 echo  Stopping TASMEEM...
 docker stop tasmeem-app >nul 2>&1
+exit /b 0
+:closed
+echo  TASMEEM was closed. You can close this window.
+pause
 exit /b 0
 
 :nodocker

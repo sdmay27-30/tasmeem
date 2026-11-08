@@ -18,7 +18,7 @@ Team sdmay27-30, Iowa State University. Advisor: Mahmoud Gshash.
 | Linux | `launchers/linux/tasmeem.sh` (`bash launchers/linux/tasmeem.sh`) |
 
 The first start builds the image, which takes 30 to 60 minutes and about 30 GB of free disk. Later starts take seconds.
-Your files are saved in the `work/` folder.
+Your files are saved in the `work/` folder. Closing the TASMEEM browser tab stops it (after a short delay); anything saved outside `work/` is removed.
 
 ## Layout
 

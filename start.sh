@@ -18,4 +18,6 @@ if [ ! -d ~/work/openEMS_examples ]; then
 fi
 
 vncserver :1 -geometry 1600x900 -depth 24 -localhost yes
-exec websockify --web /usr/share/novnc 6080 localhost:5901
+# When the last browser tab disconnects, wait 2 minutes (covers a page reload), then exit.
+# This is the container's main process, so the whole container stops and removes itself.
+exec websockify --idle-timeout=120 --web /usr/share/novnc 6080 localhost:5901

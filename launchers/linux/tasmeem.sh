@@ -1,9 +1,15 @@
 #!/bin/bash
 # TASMEEM launcher for Linux. Run:  bash launchers/linux/tasmeem.sh   (or double-click if your file manager allows it)
 cd "$(dirname "$0")/../.." || exit 1   # repo root (Dockerfile lives here)
-IMAGE=ghcr.io/sdmay27-30/tasmeem:v5
+IMAGE=ghcr.io/sdmay27-30/tasmeem:v6
 pause() { read -n 1 -s -r -p " Press any key to close."; echo; }
 echo; echo " TASMEEM launcher"; echo " ----------------"
+
+if ! command -v curl >/dev/null 2>&1; then
+  echo " curl is not installed. Install it with:  sudo apt-get install -y curl"
+  echo " (other distributions: install the curl package), then run this again."
+  pause; exit 1
+fi
 
 if ! command -v docker >/dev/null 2>&1; then
   echo " Docker is not installed."
@@ -39,6 +45,7 @@ if ! docker image inspect "$IMAGE" >/dev/null 2>&1; then
 fi
 
 mkdir -p work
+chmod a+rwx work 2>/dev/null   # lets the container write here even if your user ID is not 1000
 docker rm -f tasmeem-app >/dev/null 2>&1
 echo " Starting TASMEEM..."
 if ! docker run -d --rm --name tasmeem-app -p 127.0.0.1:6080:6080 -v "$PWD/work:/home/tasmeem/work" "$IMAGE" >/dev/null; then
@@ -61,6 +68,12 @@ if command -v xdg-open >/dev/null 2>&1; then xdg-open "$URL" >/dev/null 2>&1 &
 else echo " Open this address in a browser: $URL"; fi
 echo; echo " TASMEEM is open in your browser."
 echo " Your files are saved in the \"work\" folder in this project."
-echo; echo " Keep this window open while you work."
-read -n 1 -s -r -p " Press any key here when you are done to stop TASMEEM."; echo
-echo " Stopping TASMEEM..."; docker stop tasmeem-app >/dev/null 2>&1
+echo; echo " To stop TASMEEM: close its browser tab, or press any key here."
+echo " You can close this window; TASMEEM keeps running until its browser tab is closed."
+echo " Anything saved outside the work folder is removed when TASMEEM stops."
+stop_tasmeem() { echo; echo " Stopping TASMEEM..."; docker stop tasmeem-app >/dev/null 2>&1; }
+trap 'stop_tasmeem; exit 0' INT TERM   # Ctrl-C stops it; just closing the window does not
+while [ -n "$(docker ps -q -f name=tasmeem-app)" ]; do
+  if read -t 2 -n 1 -s -r; then stop_tasmeem; exit 0; fi
+done
+echo " TASMEEM was closed. You can close this window."

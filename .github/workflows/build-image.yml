@@ -4,6 +4,10 @@ name: Build image
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Image tag to publish
+        default: v6
   push:
     tags: ['v*']
 
@@ -70,7 +74,7 @@ jobs:
       - name: Combine both builds under one tag
         working-directory: /tmp/digests
         run: |
-          TAG="${GITHUB_REF_NAME}"
-          [ "${GITHUB_REF_TYPE}" = "tag" ] || TAG="v5"
+          TAG="${{ inputs.tag }}"
+          [ -n "$TAG" ] || TAG="${GITHUB_REF_NAME}"
           docker buildx imagetools create -t "$IMAGE:$TAG" -t "$IMAGE:latest" \
             $(printf "$IMAGE@sha256:%s " *)
