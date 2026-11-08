@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Image tag to publish
-        default: v6
+        description: Image tag to publish (test builds, e.g. v7-yourname; releases are plain v7, v8, ...)
+        default: dev
   push:
     tags: ['v*']
 
@@ -76,5 +76,9 @@ jobs:
         run: |
           TAG="${{ inputs.tag }}"
           [ -n "$TAG" ] || TAG="${GITHUB_REF_NAME}"
-          docker buildx imagetools create -t "$IMAGE:$TAG" -t "$IMAGE:latest" \
+          # Only plain release tags (v7, v8, ...) also move "latest". Test tags such as
+          # v7-test or aaron-verilator never touch it, so students always get a tested image.
+          EXTRA=""
+          if echo "$TAG" | grep -Eq '^v[0-9]+$'; then EXTRA="-t $IMAGE:latest"; fi
+          docker buildx imagetools create -t "$IMAGE:$TAG" $EXTRA \
             $(printf "$IMAGE@sha256:%s " *)
