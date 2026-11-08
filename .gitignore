@@ -2,3 +2,4 @@ work/*
 !work/.gitkeep
 *.zip
 .DS_Store
+__pycache__/
