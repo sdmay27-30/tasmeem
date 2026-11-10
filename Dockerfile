@@ -3,6 +3,7 @@
 # Step 3: add Qucs-RFlayout (microstrip schematic to KiCad layout / openEMS script).
 # Step 4: add the font Octave needs to draw plots.
 # Step 5: add the TASMEEM EM Simulator app (point-and-click openEMS front end, Python).
+# Step 6: add Verilator (Verilog simulation) and the Verilator GUI.
 # ---------------- Stage 1: build Qucs-RFlayout (kept out of the final image) ----------------
 # Qucs-RFlayout turns a Qucs-S microstrip schematic into a KiCad layout or an openEMS script.
 # It needs LaTeX and the Lato font only while compiling, so it is built in its own stage and only
@@ -116,6 +117,15 @@ from openEMS import openEMS; from CSXCAD import ContinuousStructure; print('TASM
 COPY --from=rflayout-build /src/build/qucsrflayout /usr/local/bin/qucsrflayout
 # ------------------------------------------------------------
 
+# ---------------- Verilator and its GUI (added in step 6) ----------------
+# Verilator turns Verilog into a C++ simulation. Ubuntu 24.04 ships version 5.020, so no source
+# build is needed (g++ and make are already here from the Qucs-S step). python3-pyqt5.qtwebengine
+# lets the Verilator GUI open in its own desktop window (PyQt5 is already here for the EM Simulator).
+# Kept after every long build step so the cached layers above are reused.
+RUN apt-get update && apt-get install -y --no-install-recommends verilator python3-pyqt5.qtwebengine \
+ && rm -rf /var/lib/apt/lists/*
+# ------------------------------------------------------------
+
 # Non-root user, home folder doubles as the shared workspace.
 # Ubuntu 24.04 already has a user at ID 1000 ("ubuntu"). Replace it so the app user gets ID 1000,
 # which matches the first user on most Linux computers (needed to write to the shared work folder).
@@ -131,8 +141,11 @@ COPY --chown=tasmeem:tasmeem library/ /home/tasmeem/QucsWorkspace/user_lib/
 # start.sh copies it into the work folder the first time.
 COPY --chown=tasmeem:tasmeem examples/ /home/tasmeem/examples/
 
+# Verilator GUI: a small Python web app (built-in Python only) plus the window that shows it.
+COPY --chown=tasmeem:tasmeem vgui/ /home/tasmeem/vgui/
+
 # Launcher buttons on the desktop, one per tool.
-COPY --chown=tasmeem:tasmeem Qucs-S.desktop openEMS-Octave.desktop TASMEEM-EM.desktop AppCSXCAD.desktop /home/tasmeem/Desktop/
+COPY --chown=tasmeem:tasmeem Qucs-S.desktop openEMS-Octave.desktop TASMEEM-EM.desktop AppCSXCAD.desktop Verilator-GUI.desktop /home/tasmeem/Desktop/
 RUN chmod +x /home/tasmeem/Desktop/*.desktop
 
 COPY --chown=tasmeem:tasmeem start.sh /home/tasmeem/start.sh

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Verilator GUI
+Comment=Verilog simulator with a file browser, editor, Run button and waveform
+Exec=/usr/bin/python3 /home/tasmeem/vgui/vgui_window.py
+Icon=applications-science
+Path=/home/tasmeem/work
+Terminal=false
+Categories=Education;
