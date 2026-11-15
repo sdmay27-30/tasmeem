@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=KiCad
+Comment=Schematic and PCB design (TASMEEM)
+Exec=kicad
+Terminal=false
+Categories=Education;
