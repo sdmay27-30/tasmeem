@@ -116,6 +116,15 @@ from openEMS import openEMS; from CSXCAD import ContinuousStructure; print('TASM
 COPY --from=rflayout-build /src/build/qucsrflayout /usr/local/bin/qucsrflayout
 # ------------------------------------------------------------
 
+# ---------------- KiCad (added in step 6) ----------------
+# KiCad 10 from the official KiCad PPA (Ubuntu 24.04's own package is the older 7.x).
+# Qucs-RFlayout already exports KiCad layouts, so students can open them here.
+RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
+ && add-apt-repository -y ppa:kicad/kicad-10.0-releases \
+ && apt-get update && apt-get install -y --no-install-recommends kicad \
+ && rm -rf /var/lib/apt/lists/*
+# ------------------------------------------------------------
+
 # Non-root user, home folder doubles as the shared workspace.
 # Ubuntu 24.04 already has a user at ID 1000 ("ubuntu"). Replace it so the app user gets ID 1000,
 # which matches the first user on most Linux computers (needed to write to the shared work folder).
@@ -132,7 +141,7 @@ COPY --chown=tasmeem:tasmeem library/ /home/tasmeem/QucsWorkspace/user_lib/
 COPY --chown=tasmeem:tasmeem examples/ /home/tasmeem/examples/
 
 # Launcher buttons on the desktop, one per tool.
-COPY --chown=tasmeem:tasmeem Qucs-S.desktop openEMS-Octave.desktop TASMEEM-EM.desktop AppCSXCAD.desktop /home/tasmeem/Desktop/
+COPY --chown=tasmeem:tasmeem Qucs-S.desktop openEMS-Octave.desktop TASMEEM-EM.desktop AppCSXCAD.desktop KiCad.desktop /home/tasmeem/Desktop/
 RUN chmod +x /home/tasmeem/Desktop/*.desktop
 
 COPY --chown=tasmeem:tasmeem start.sh /home/tasmeem/start.sh
