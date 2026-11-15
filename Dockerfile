@@ -121,7 +121,7 @@ COPY --from=rflayout-build /src/build/qucsrflayout /usr/local/bin/qucsrflayout
 # Qucs-RFlayout already exports KiCad layouts, so students can open them here.
 RUN apt-get update && apt-get install -y --no-install-recommends software-properties-common \
  && add-apt-repository -y ppa:kicad/kicad-10.0-releases \
- && apt-get update && apt-get install -y --no-install-recommends kicad \
+ && apt-get update && apt-get install -y --no-install-recommends kicad kicad-symbols kicad-footprints kicad-templates \
  && rm -rf /var/lib/apt/lists/*
 # ------------------------------------------------------------
 
