@@ -1,7 +1,7 @@
 # TASMEEM
 
 Open-source electronics design and simulation tools in one Docker image, opened in a browser with no terminal needed.
-Included: Qucs-S, ngspice, qucsator_rf, Qucs-RFlayout, openEMS, AppCSXCAD, Octave, and the TASMEEM EM Simulator.
+Included: Qucs-S, ngspice, qucsator_rf, Qucs-RFlayout, openEMS, AppCSXCAD, Octave, and the TASMEEM EM Simulator, Verilator and the Verilator GUI.
 
 Team sdmay27-30, Iowa State University. Advisor: Mahmoud Gshash.
 
