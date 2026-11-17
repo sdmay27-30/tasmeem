@@ -1,7 +1,7 @@
 #!/bin/bash
 # TASMEEM launcher for Mac. Double-click to start.
 cd "$(dirname "$0")/../.." || exit 1   # repo root (Dockerfile lives here)
-IMAGE=ghcr.io/sdmay27-30/tasmeem:v6   # v6 = v5 plus: the container stops when the browser tab is closed
+IMAGE=ghcr.io/sdmay27-30/tasmeem:v7   # v7 = v6 plus KiCad and the Verilator GUI
 echo
 echo " TASMEEM launcher"
 echo " ----------------"

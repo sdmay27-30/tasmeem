@@ -3,7 +3,7 @@ setlocal
 title TASMEEM launcher
 cd /d "%~dp0..\.."
 rem v6 = v5 plus: the container stops when the browser tab is closed
-set IMAGE=ghcr.io/sdmay27-30/tasmeem:v6
+set IMAGE=ghcr.io/sdmay27-30/tasmeem:v7
 echo.
 echo  TASMEEM launcher
 echo  ----------------

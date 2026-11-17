@@ -2,7 +2,7 @@
 # TASMEEM launcher for Linux. Run:  bash launchers/linux/tasmeem.sh
 # If Docker is missing, this offers to install it (Ubuntu/Debian). No other tools are needed.
 cd "$(dirname "$0")/../.." || exit 1   # project root (Dockerfile lives here)
-IMAGE=ghcr.io/sdmay27-30/tasmeem:v6
+IMAGE=ghcr.io/sdmay27-30/tasmeem:v7
 DOCKER=docker
 pause() { read -n 1 -s -r -p " Press any key to close."; echo; }
 echo; echo " TASMEEM launcher"; echo " ----------------"
